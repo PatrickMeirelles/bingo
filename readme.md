@@ -193,7 +193,3 @@ Este projeto está licenciado sob a [MIT License](https://opensource.org/license
 ### Agradecimentos
 
 Obrigado por conferir o **Bingo API**! Se você tiver alguma dúvida ou sugestão, fique à vontade para abrir uma issue ou enviar um pull request.
-
---- 
-
-Esse README fornece uma explicação clara sobre o propósito da API, como configurá-la e interagir com ela. A estrutura foi pensada para ser simples e amigável, ajudando novos usuários a entender rapidamente como rodar e utilizar a API.
