@@ -10,6 +10,21 @@ export function sortNumber(): number {
     return Math.floor(Math.random() * 75) + 1;
 }
 
+function getLetterForNumber(number: number): string {
+    if (number >= 1 && number <= 15) {
+        return 'B';
+    } else if (number >= 16 && number <= 30) {
+        return 'I';
+    } else if (number >= 31 && number <= 45) {
+        return 'N';
+    } else if (number >= 46 && number <= 60) {
+        return 'G';
+    } else if (number >= 61 && number <= 75) {
+        return 'O';
+    }
+    return '';
+}
+
 export const sortNumberRandom = async (req: Request, res: Response) => {
     try {
         let numberSorted: number;
@@ -27,10 +42,12 @@ export const sortNumberRandom = async (req: Request, res: Response) => {
             });
         }
 
+        const letter = getLetterForNumber(numberSorted);
+
         return res.status(StatusCodes.OK).json({
             success: true,
             message: "Número aleatório gerado com sucesso",
-            data: { number: numberSorted }
+            data: { number: numberSorted, letter }
         });
 
     } catch (err) {
@@ -45,12 +62,30 @@ export const sortNumberRandom = async (req: Request, res: Response) => {
 
 export const getSortedNumbers = (req: Request, res: Response) => {
     try {
-        const arrNumbers = Array.from(sortedNumbers);
+        const groupedNumbers: Record<string, number[]> = {
+            B: [],
+            I: [],
+            N: [],
+            G: [],
+            O: []
+        };
+
+        sortedNumbers.forEach((number) => {
+            const letter = getLetterForNumber(number);
+            if (letter) {
+                groupedNumbers[letter].push(number);
+            }
+        });
+
+        const lastNumbers = Array.from(sortedNumbers).slice(-10).reverse();
 
         return res.status(StatusCodes.OK).json({
             success: true,
-            message: "Lista de números sorteados",
-            data: { sortedNumbers: arrNumbers }
+            message: "Lista de números sorteados agrupados por letra, com os últimos 10 números",
+            data: {
+                groupedNumbers,
+                lastNumbers
+            }
         });
 
     } catch (err) {
